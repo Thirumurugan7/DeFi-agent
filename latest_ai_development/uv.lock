@@ -2124,7 +2124,10 @@ source = { editable = "." }
 dependencies = [
     { name = "crewai", extra = ["tools"] },
     { name = "eth-account" },
+    { name = "fastapi" },
     { name = "python-dotenv" },
+    { name = "tweepy" },
+    { name = "uvicorn" },
     { name = "web3" },
 ]
 
@@ -2132,7 +2135,10 @@ dependencies = [
 requires-dist = [
     { name = "crewai", extras = ["tools"], specifier = ">=0.98.0,<1.0.0" },
     { name = "eth-account", specifier = ">=0.8.0,<0.9.0" },
+    { name = "fastapi", specifier = ">=0.68.0" },
     { name = "python-dotenv", specifier = ">=1.0.0" },
+    { name = "tweepy", specifier = ">=4.12.0" },
+    { name = "uvicorn", specifier = ">=0.15.0" },
     { name = "web3", specifier = ">=6.15.0,<7.0.0" },
 ]
 
@@ -4327,6 +4333,20 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/dd/36/abad2385853077424a11b818d9fd8350d249d9e31d583cb9c11cd4c85eda/trio-websocket-0.11.1.tar.gz", hash = "sha256:18c11793647703c158b1f6e62de638acada927344d534e3c7628eedcb746839f", size = 26511 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/48/be/a9ae5f50cad5b6f85bd2574c2c923730098530096e170c1ce7452394d7aa/trio_websocket-0.11.1-py3-none-any.whl", hash = "sha256:520d046b0d030cf970b8b2b2e00c4c2245b3807853ecd44214acd33d74581638", size = 17408 },
+]
+
+[[package]]
+name = "tweepy"
+version = "4.15.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "oauthlib" },
+    { name = "requests" },
+    { name = "requests-oauthlib" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/99/05/7c2c01bd62900eff24534779f1e1531491dfd872edb6a9d432ae91e18b4b/tweepy-4.15.0.tar.gz", hash = "sha256:1345cbcdf0a75e2d89f424c559fd49fda4d8cd7be25cd5131e3b57bad8a21d76", size = 100268 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/81/53/ca632ec02085b5c432e98ae1f872a21f2b6bb6c3d022dcf586809cc65cd0/tweepy-4.15.0-py3-none-any.whl", hash = "sha256:64adcea317158937059e4e2897b3ceb750b0c2dd5df58938c2da8f7eb3b88e6a", size = 99379 },
 ]
 
 [[package]]

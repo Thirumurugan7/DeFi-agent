@@ -8,12 +8,16 @@ dependencies = [
     "crewai[tools]>=0.98.0,<1.0.0",
     "web3>=6.15.0,<7.0.0",
     "python-dotenv>=1.0.0",
-    "eth-account>=0.8.0,<0.9.0"
+    "eth-account>=0.8.0,<0.9.0",
+    "fastapi>=0.68.0",
+    "uvicorn>=0.15.0",
+    "tweepy>=4.12.0"
 ]
 
 [project.scripts]
 latest_ai_development = "latest_ai_development.main:run"
 run_crew = "latest_ai_development.main:run"
+run_monitor = "latest_ai_development.scripts.run_service:run_services"
 train = "latest_ai_development.main:train"
 replay = "latest_ai_development.main:replay"
 test = "latest_ai_development.main:test"

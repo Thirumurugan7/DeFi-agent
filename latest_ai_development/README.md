@@ -57,23 +57,28 @@ Let's create wonders together with the power and simplicity of crewAI.
 
 # Ethereum Transfer Agent System
 
-A sophisticated AI-powered Ethereum transfer system built with CrewAI that enables secure and validated ETH transfers on the Sepolia testnet.
+A sophisticated AI-powered Ethereum transfer system built with CrewAI that enables secure and validated ETH transfers on the Sepolia testnet, with Twitter integration for automated transfers to addresses mentioned in tweets.
 
 ## Overview
 
-This application uses a multi-agent system to handle Ethereum transfers with built-in validation and security checks. It consists of two specialized AI agents:
+This application uses a multi-agent system to handle Ethereum transfers with built-in validation and security checks, plus Twitter monitoring capabilities. It consists of:
 
-1. **Validator Agent**: Performs pre-transfer validation checks including:
+1. **Validator Agent**: Performs pre-transfer validation checks
    - Address validation
    - Amount reasonability
    - Balance verification
    - Security compliance
 
-2. **Transfer Agent**: Executes the validated transfers with:
+2. **Transfer Agent**: Executes the validated transfers
    - Secure transaction signing
    - Gas optimization
    - Transaction monitoring
    - Detailed reporting
+
+3. **Twitter Monitor**: Monitors Twitter for ETH addresses
+   - Tracks mentions of specified account
+   - Extracts ETH addresses from tweets
+   - Triggers automatic transfers
 
 ## Features
 
@@ -81,6 +86,7 @@ This application uses a multi-agent system to handle Ethereum transfers with bui
 - ✅ Multi-step validation process
 - 💡 Intelligent transfer amount verification
 - 📊 Detailed transaction reporting
+- 🐦 Twitter integration for automated transfers
 - ⚡ Gas optimization
 - 🔍 Comprehensive error handling
 
@@ -88,113 +94,109 @@ This application uses a multi-agent system to handle Ethereum transfers with bui
 
 - Python >=3.10, <3.13
 - Sepolia testnet ETH
-- Alchemy API key
+- Alchemy/Infura API key
 - Ethereum wallet private key
+- Twitter API credentials
 
 ## Installation
 
 1. Clone the repository:
-
-
-
 ```bash
 git clone <repository-url>
 cd latest_ai_development
-
 ```
 
-
-
 2. Install dependencies:
-
 ```bash
 pip install -e .
 ```
 
-
 3. Configure environment variables in `.env`:
-
 ```bash
+# Blockchain Configuration
 SEPOLIA_RPC_URL=https://sepolia.infura.io/v3/YOUR_INFURA_PROJECT_ID
 PRIVATE_KEY=0x...
-```
 
+# Twitter API Configuration
+TWITTER_API_KEY=your-twitter-api-key
+TWITTER_API_SECRET=your-twitter-api-secret
+TWITTER_BEARER_TOKEN=your-twitter-bearer-token
+TWITTER_ACCESS_TOKEN=your-twitter-access-token
+TWITTER_ACCESS_TOKEN_SECRET=your-twitter-access-token-secret
+
+# Monitoring Configuration
+MONITOR_ACCOUNT=@YourTwitterHandle
+TRANSFER_AMOUNT=0.01
+MONITOR_INTERVAL_MINUTES=15
+```
 
 ## Usage
 
-1. Configure transfer details in `main.py`:
+### Direct Transfer
 
+1. Configure transfer details in `main.py`:
+```python
+inputs = {
+    'amount': 0.01,  # Amount in ETH
+    'recipient': '0x...'  # Recipient address
+}
+```
+
+2. Run the transfer:
 ```bash
 python main.py
 ```
 
-inputs = {
-'amount': 0.01, # Amount in ETH
-'recipient': '0x...' # Recipient address
-}
+### Twitter Monitoring Service
 
-
-
-2. Run the crew:
+Run the monitoring service that automatically processes transfers from Twitter mentions:
 
 ```bash
-crewai run
+# Run the complete service (API + Monitor)
+python -m latest_ai_development.scripts.run_service
 ```
 
+Or run components separately:
 
+```bash
+# Run just the API server
+uvicorn latest_ai_development.api.server:app --reload --host 0.0.0.0 --port 8000
 
-## System Architecture
+# Run just the monitor in another terminal
+python -m latest_ai_development.scripts.monitor
+```
 
-### Components
+### API Endpoints
 
-1. **CrewAI Framework**
-   - Manages agent interactions
-   - Handles task sequencing
-   - Provides tool integration
+Test the API directly:
 
-2. **Blockchain Utils**
-   - Web3 integration
-   - Transaction management
-   - Address validation
+```bash
+# Monitor mentions and process transfers
+curl -X POST "http://localhost:8000/monitor/mentions" \
+     -H "Content-Type: application/json" \
+     -d '{
+           "target_account": "@YourTwitterHandle",
+           "hours_ago": 24,
+           "amount_per_address": 0.01
+         }'
 
-3. **Transfer Tool**
-   - Transaction execution
-   - Error handling
-   - Result formatting
+# Check specific tweet
+curl "http://localhost:8000/check/tweet/1234567890"
+```
 
-### Workflow
+## Twitter Integration
 
-1. User initiates transfer request
-2. Validator agent performs checks
-3. Transfer agent executes validated transaction
-4. System provides detailed transaction report
+The system monitors mentions of your Twitter account and processes ETH transfers automatically:
 
-## Security Features
+1. Users mention your account with an ETH address
+2. System detects the mention and extracts the address
+3. Validates the address and initiates transfer
+4. Reports transfer status
 
-- Private key safety through environment variables
-- Address validation
-- Balance checks
-- Transaction amount validation
-- Sepolia testnet support for safe testing
-
-## Configuration
-
-### Agents (`config/agents.yaml`)
-- Validator agent configuration
-- Transfer agent configuration
-
-### Tasks (`config/tasks.yaml`)
-- Transfer validation task
-- Transfer execution task
-
-## Error Handling
-
-The system includes comprehensive error handling for:
-- Invalid addresses
-- Insufficient balances
-- Network issues
-- Transaction failures
-- Invalid inputs
+Example tweet that triggers a transfer:
+```
+@YourTwitterHandle Here's my ETH address: 0x742d35Cc6634C0532925a3b844Bc454e4438f44e
+```
 
 ## Development
 
