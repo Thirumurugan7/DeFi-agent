@@ -1,19 +1,20 @@
 # src/latest_ai_development/config/tasks.yaml
-research_task:
+validate_transfer:
   description: >
-    Conduct a thorough research about {topic}
-    Make sure you find any interesting and relevant information given
-    the current year is 2024.
+    Validate the transfer request for {amount} ETH to {recipient} on Sepolia network.
+    Check if:
+    1. The recipient address is valid
+    2. The amount is reasonable (not suspiciously high)
+    3. The sender has sufficient balance
+    4. The transaction complies with basic security rules
   expected_output: >
-    A list with 10 bullet points of the most relevant information about {topic}
-  agent: researcher
+    A validation result with either approval or rejection, including detailed reason.
+  agent: validator
 
-reporting_task:
+execute_transfer:
   description: >
-    Review the context you got and expand each topic into a full section for a report.
-    Make sure the report is detailed and contains any and all relevant information.
+    Execute the transfer of {amount} ETH to {recipient} after validation.
+    Record the transaction details and confirm completion.
   expected_output: >
-    A fully fledge reports with the mains topics, each with a full section of information.
-    Formatted as markdown without '```'
-  agent: reporting_analyst
-  output_file: report.md
+    Transaction confirmation with transfer details and status.
+  agent: transfer_agent

@@ -1,46 +1,45 @@
 # src/latest_ai_development/crew.py
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
-from crewai_tools import SerperDevTool
+from .tools.transfer_tool import TransferTool
 
 @CrewBase
-class LatestAiDevelopmentCrew():
-  """LatestAiDevelopment crew"""
+class TokenTransferCrew():
+    """Token Transfer crew"""
 
-  @agent
-  def researcher(self) -> Agent:
-    return Agent(
-      config=self.agents_config['researcher'],
-      verbose=True,
-      tools=[SerperDevTool()]
-    )
+    @agent
+    def validator(self) -> Agent:
+        return Agent(
+            config=self.agents_config['validator'],
+            verbose=True
+        )
 
-  @agent
-  def reporting_analyst(self) -> Agent:
-    return Agent(
-      config=self.agents_config['reporting_analyst'],
-      verbose=True
-    )
+    @agent
+    def transfer_agent(self) -> Agent:
+        return Agent(
+            config=self.agents_config['transfer_agent'],
+            verbose=True,
+            tools=[TransferTool()]
+        )
 
-  @task
-  def research_task(self) -> Task:
-    return Task(
-      config=self.tasks_config['research_task'],
-    )
+    @task
+    def validate_transfer(self) -> Task:
+        return Task(
+            config=self.tasks_config['validate_transfer']
+        )
 
-  @task
-  def reporting_task(self) -> Task:
-    return Task(
-      config=self.tasks_config['reporting_task'],
-      output_file='output/report.md' # This is the file that will be contain the final report.
-    )
+    @task
+    def execute_transfer(self) -> Task:
+        return Task(
+            config=self.tasks_config['execute_transfer']
+        )
 
-  @crew
-  def crew(self) -> Crew:
-    """Creates the LatestAiDevelopment crew"""
-    return Crew(
-      agents=self.agents, # Automatically created by the @agent decorator
-      tasks=self.tasks, # Automatically created by the @task decorator
-      process=Process.sequential,
-      verbose=True,
-    )
+    @crew
+    def crew(self) -> Crew:
+        """Creates the Token Transfer crew"""
+        return Crew(
+            agents=[self.validator(), self.transfer_agent()],
+            tasks=[self.validate_transfer(), self.execute_transfer()],
+            process=Process.sequential,
+            verbose=True,
+        )
